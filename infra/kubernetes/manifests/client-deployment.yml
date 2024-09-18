@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: clockapp-client-dev
-          image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:latest
+          image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:main
           imagePullPolicy: Always
           resources:
             requests:
