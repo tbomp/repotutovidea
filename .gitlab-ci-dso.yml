@@ -17,7 +17,7 @@ container-build:main:
   stage: container-build
   retry: 2
   rules: 
-    - if $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "main"
   extends: 
     - .kaniko:build-push
   variables:
