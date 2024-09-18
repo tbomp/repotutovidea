@@ -18,7 +18,7 @@ spec:
         Tier: frontend
         Criticality: High
     spec: 
-      imagePullSecret: 
+      imagePullSecrets: 
         - name: registry-pull-secret
       restartPolicy: Always
       containers:
