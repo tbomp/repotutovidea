@@ -1,0 +1,24 @@
+include 
+  - local: ".gitlab/template-ci/cloud-pi-native/kaniko-ci.yml"
+  - project: $CATALOG_PATH
+    file: vault-ci.yml
+    ref: main
+
+stages:
+  - read-secret
+  - container-build
+
+read-secret:
+  stage: read-secret
+  extends:
+    - .vault:read_secret
+
+container-build:main:
+  stage: container-build
+  retry: 2
+  rules: $CI_COMMIT_BRANCH == "main"
+  extends: 
+    - .kaniko:build-push
+  variables
+    DOCKERFILE: docker/Dockerfile.k8s.prod
+    IMAGE_NAMES: ${CI_PROJECT_NAME}:latest ${CI_PROJECT_NAME}:${CI_COMMIT_BRANCH} ${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA} ${CI_PROJECT_NAME}:${CI_COMMIT_SHA}
