@@ -1,49 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clockapp-client-dev-deployment
-  labels: 
+  labels:
     app: clockapp-client-dev
+  name: clockapp-client-dev-deployment
 spec:
-  selector: 
+  replicas: 2
+  selector:
     matchLabels:
       app: clockapp-client-dev
-  replicas: 1
   strategy:
     type: Recreate
   template:
-    metadata: 
-      labels: 
-        app: clockapp-client-dev
-        Tier: frontend
+    metadata:
+      labels:
         Criticality: High
-    spec: 
-      imagePullSecrets: 
-        - name: registry-pull-secret
-      restartPolicy: Always
+        Tier: frontend
+        app: clockapp-client-dev
+    spec:
       containers:
-        - name: clockapp-client-dev
-          image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:main
-          imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "500m"
-            limits:
-              memory: "1,5Gi"
-              cpu: "900m"
-          ports:
-            - name: httpd-port
-              containerPort: 8080
-          readinessProbe:
-            httpGet:    
-              path: /
-              port: httpd-port
-            initialDelaySeconds: 10
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:    
-              path: /
-              port: httpd-port
-            initialDelaySeconds: 10
-            periodSeconds: 5
+      - image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:main
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: httpd-port
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        name: clockapp-client-dev
+        ports:
+        - containerPort: 8080
+          name: httpd-port
+        readinessProbe:
+          httpGet:
+            path: /
+            port: httpd-port
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 900m
+            memory: 1,5Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+      imagePullSecrets:
+      - name: registry-pull-secret
+      restartPolicy: Always
