@@ -28,10 +28,10 @@ spec:
           resources:
             requests:
               memory: "0,5Gi"
-              cpu: "500mi"
+              cpu: "500Mi"
             limits:
               memory: "1,5Gi"
-              cpu: "900mi"
+              cpu: "900Mi"
           ports:
             - name: httpd-port
               containerPort: 8080
