@@ -1,0 +1,5 @@
+FROM bitnami/apache:2.4-debian-12
+USER 0
+RUN apt-get update && apt-get upgrade -y
+USER 1001
+COPY --chown=1001:1001 ./src/ /opt/bitnami/apache/htdocs/
