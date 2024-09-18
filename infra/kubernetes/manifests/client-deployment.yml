@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clockapp-client-dev-deployment
+  labels: 
+    app: clockapp-client-dev
+spec:
+  selector: 
+    matchLabels:
+      app: clockapp-client-dev
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata: 
+      labels: 
+        app: clockapp-client-dev
+        Tier: frontend
+        Criticality: High
+    spec: 
+      imagePullSecret: 
+        - name: registry-pull-secret
+      restartPolicy: Always
+      containers:
+        - name: clockapp-client-dev
+          image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - name: httpd-port
+              containerPort: 8080
+          readinessProbe:
+            httpGet:    
+              path: /
+              port: httpd-port
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:    
+              path: /
+              port: httpd-port
+            initialDelaySeconds: 10
+            periodSeconds: 5
