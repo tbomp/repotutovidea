@@ -1,0 +1,21 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata: 
+  name: clockapp-client-dev-configmap
+  labels: 
+    app: clockapp-client-dev
+data: 
+  vars: |
+    {
+    
+      var1: foo,
+      var2: bar
+
+    }
+  autre: |
+    {
+    
+      var1: foo,
+      var2: bar
+
+    }

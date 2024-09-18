@@ -1,0 +1,12 @@
+apiVersion: v1 
+kind: PersistentVolumeClaim 
+metadata: 
+  name: clockapp-client-dev-deployment
+  labels: 
+    app: clockapp-client-dev
+spec: 
+  accessModes: 
+    - ReadWriteOnce
+  resources:  
+    requests: 
+      storage: 100Mi

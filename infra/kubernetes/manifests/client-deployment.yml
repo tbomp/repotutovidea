@@ -18,6 +18,13 @@ spec:
         Tier: frontend
         app: clockapp-client-dev
     spec:
+      volumes: 
+        - name: clockapp-client-dev-optionnal-var
+          configMap:
+            name: clockapp-client-dev-configmap
+            items:
+              - key: vars
+                path: vars.json
       containers:
       - image: harbor.apps.dso.numerique-interieur.com/ma-tutovidea/tuto:main
         imagePullPolicy: Always
@@ -29,8 +36,8 @@ spec:
           periodSeconds: 5
         name: clockapp-client-dev
         ports:
-        - containerPort: 8080
-          name: httpd-port
+          - name: httpd-port
+            containerPort: 8081
         readinessProbe:
           httpGet:
             path: /
