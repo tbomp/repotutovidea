@@ -16,7 +16,8 @@ read-secret:
 container-build:main:
   stage: container-build
   retry: 2
-  rules: $CI_COMMIT_BRANCH == "main"
+  rules: 
+    - if $CI_COMMIT_BRANCH == "main"
   extends: 
     - .kaniko:build-push
   variables
